@@ -5,7 +5,8 @@ export default function Analysis({ answers }) {
   return (
     <div className={classes.analysis}>
       <h1>Question Analysis</h1>
-      <Questions answers={answers} />
+      <h4>You answered 5 out of 10 questions correctly </h4>
+      <Questions />
     </div>
   );
 }
