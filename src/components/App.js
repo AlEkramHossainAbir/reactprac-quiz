@@ -2,6 +2,7 @@ import Layout from "../components/Layout";
 import { AuthProvider } from "../contexts/AuthContext";
 import "../styles/App.css";
 import PrivateRoute from "./PrivateRoute";
+import PublicRoute from "./PublicRoute";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Quiz from "./pages/Quiz";
@@ -17,7 +18,14 @@ function App() {
         <Layout>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/signup" element={<Signup />} />
+            <Route
+              path="/signup"
+              element={
+                <PublicRoute>
+                  <Signup />
+                </PublicRoute>
+              }
+            />
             <Route path="/login" element={<Login />} />
             <Route
               path="/quiz"
