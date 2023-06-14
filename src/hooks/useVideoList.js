@@ -1,10 +1,19 @@
-import { get, getDatabase, orderByKey, query, ref } from "firebase/database";
+import {
+  get,
+  getDatabase,
+  limitToFirst,
+  orderByKey,
+  query,
+  ref,
+  startAt,
+} from "firebase/database";
 import { useEffect, useState } from "react";
 
-export default function useVideoList() {
+export default function useVideoList(page) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [videos, setVideos] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
     async function fetchVideos() {
@@ -12,7 +21,12 @@ export default function useVideoList() {
 
       const db = getDatabase();
       const videosRef = ref(db, "videos");
-      const videoQuery = query(videosRef, orderByKey());
+      const videoQuery = query(
+        videosRef,
+        orderByKey(),
+        startAt("" + page),
+        limitToFirst(4)
+      );
 
       try {
         setError("");
@@ -27,6 +41,7 @@ export default function useVideoList() {
             return [...prevVideos, ...Object.values(snapshot.val())];
           });
         } else {
+          setHasMore(false);
         }
       } catch (err) {
         setLoading(false);
@@ -36,11 +51,12 @@ export default function useVideoList() {
     }
 
     fetchVideos();
-  }, []);
+  }, [page]);
 
   return {
     loading,
     error,
     videos,
+    hasMore,
   };
 }
