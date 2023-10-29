@@ -9,6 +9,9 @@ export default function Signup() {
       }}
     >
       <h1>Create an account</h1>
+      <button type="button" class="btn btn-primary">
+        Primary
+      </button>
 
       <div className="column">
         <Illustration />
